@@ -13,23 +13,21 @@ const UserAuthModal = ({ setIsModalOpen }) => {
         handleLogin, handleSignup,
         currentScreen, setCurrentScreen,
         uploadedImageUrl, setUploadedImageUrl,
-
     } = useAppContext();
 
     const uploadUserImageToCloudinary = async (imageFile) => {
         const formData = new FormData();
         formData.append("file", imageFile);
-        formData.append("upload_preset", "eKart - eCom app"); // Replace with your actual preset
-
+        formData.append("upload_preset", "eKart - eCom app"); 
         try {
             const response = await axios.post(
                 "https://api.cloudinary.com/v1_1/djrdw0sqz/image/upload",
                 formData
             );
-            return response.data.secure_url; // Return the secure URL of the uploaded image
+            return response.data.secure_url; 
         } catch (error) {
             console.error("Cloudinary upload error:", error);
-            return null; // Return null if the upload fails
+            return null; 
         }
     };
 
@@ -43,14 +41,12 @@ const UserAuthModal = ({ setIsModalOpen }) => {
         }
 
         try {
-            // Upload the user image to Cloudinary
             const uploadedImageUrl = await uploadUserImageToCloudinary(image);
             if (!uploadedImageUrl) {
                 alert("Failed to upload image. Please try again.");
                 return;
             }
 
-            // Call the signup function with user details and uploaded image URL
             await handleSignup(username, email, password, role, uploadedImageUrl);
         } catch (error) {
             console.error("Error during signup:", error);
